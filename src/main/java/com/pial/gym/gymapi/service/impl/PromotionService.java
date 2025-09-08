@@ -1,6 +1,7 @@
 package com.pial.gym.gymapi.service.impl;
 
 import com.pial.gym.gymapi.dto.request.PromotionCreateRequest;
+import com.pial.gym.gymapi.dto.request.PromotionUpdateRequest;
 import com.pial.gym.gymapi.entity.CompanyEntity;
 import com.pial.gym.gymapi.entity.PromotionEntity;
 import com.pial.gym.gymapi.entity.PromotionTypeEntity;
@@ -38,6 +39,7 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setPromotionType(promotionTypeEntity);
             promotionEntity.setCompany(companyEntity);
             promotionEntity.setStatus(request.getStatus());
+            promotionEntity.setPrice(request.getPrice());
             promotionEntity.setStartDate(dateUtils.convertStringToDate(request.getStartDate()));
             promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
             promotionEntity.setCreationDate(new Date());
@@ -50,7 +52,25 @@ public class PromotionService implements IPromotionService {
     }
 
     @Override
-    public String update() {
-        return "";
+    public String update(PromotionUpdateRequest request) {
+        String message = "Promotion successfully updated";
+        try {
+            CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() -> new Exception("Company not found"));
+            PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() -> new Exception("Promotion Type not found"));
+            PromotionEntity promotionEntity = new PromotionEntity();
+            promotionEntity.setTitle(request.getTitle());
+            promotionEntity.setDuration(request.getDuration());
+            promotionEntity.setDurationType(request.getDurationType());
+            promotionEntity.setPromotionType(promotionTypeEntity);
+            promotionEntity.setCompany(companyEntity);
+            promotionEntity.setStatus(request.getStatus());
+            promotionEntity.setPrice(request.getPrice());
+            promotionEntity.setStartDate(dateUtils.convertStringToDate(request.getStartDate()));
+            promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
+            promotionEntity.setModificationDate(new Date());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return message;
     }
 }

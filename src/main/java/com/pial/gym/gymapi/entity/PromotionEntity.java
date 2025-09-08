@@ -4,6 +4,7 @@ import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -25,6 +26,7 @@ public class PromotionEntity {
     @JoinColumn(name = "id_company")
     private CompanyEntity company;
     private Boolean status;
+    private BigDecimal price;
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
     private Date startDate;

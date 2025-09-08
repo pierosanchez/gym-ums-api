@@ -13,4 +13,6 @@ public class PromotionTypeEntity {
     private String description;
     @Column(name = "is_user_relation")
     private Boolean isUserRelation;
+    @Column(name = "is_regular")
+    private Boolean isRegular;
 }

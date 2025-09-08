@@ -83,7 +83,8 @@ drop table if exists promotion_type;
 create table promotion_type(
     id int auto_increment primary key,
     description varchar(150) not null,
-    is_user_relation boolean not null
+    is_user_relation boolean not null,
+    is_regular boolean not null
 );
 
 drop table if exists promotion;
@@ -95,6 +96,7 @@ create table promotion(
     id_promotion_type int not null,
     id_company int not null,
     status boolean not null,
+    price decimal not null,
     start_date datetime not null,
     end_date datetime not null,
     creation_date datetime not null,

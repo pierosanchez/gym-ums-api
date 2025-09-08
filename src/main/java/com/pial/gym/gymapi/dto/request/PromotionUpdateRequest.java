@@ -8,7 +8,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class PromotionCreateRequest {
+public class PromotionUpdateRequest {
+    @NotBlank(message = "Id is required")
+    @NotNull(message = "Id is required")
+    private Integer id;
     @NotBlank(message = "Title is required")
     @NotNull(message = "Title is required")
     private String title;
