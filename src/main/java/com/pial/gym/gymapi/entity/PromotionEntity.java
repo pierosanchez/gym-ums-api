@@ -37,6 +37,6 @@ public class PromotionEntity {
     @Column(name = "creation_date")
     private Date creationDate;
     @Temporal(TemporalType.DATE)
-    @Column(name = "modificaion_date")
+    @Column(name = "modification_date")
     private Date modificationDate;
 }

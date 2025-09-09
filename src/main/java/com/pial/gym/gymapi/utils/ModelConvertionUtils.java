@@ -85,4 +85,36 @@ public class ModelConvertionUtils {
         }
         return rolePermission;
     }
+
+    public static Promotion getPromotion(PromotionEntity promotionEntity) {
+        Promotion promotion = new Promotion();
+        if (Objects.nonNull(promotionEntity)) {
+            PromotionType promotionType = getPromotionType(promotionEntity.getPromotionType());
+            Company company = getCompany(promotionEntity.getCompany());
+            promotion.setId(promotionEntity.getId());
+            promotion.setTitle(promotionEntity.getTitle());
+            promotion.setDuration(promotionEntity.getDuration());
+            promotion.setDurationType(promotionEntity.getDurationType());
+            promotion.setPromotionType(promotionType);
+            promotion.setCompany(company);
+            promotion.setStatus(promotionEntity.getStatus());
+            promotion.setPrice(promotionEntity.getPrice());
+            promotion.setStartDate(promotionEntity.getStartDate());
+            promotion.setEndDate(promotionEntity.getEndDate());
+            promotion.setCreationDate(promotionEntity.getCreationDate());
+            promotion.setModificationDate(promotionEntity.getModificationDate());
+        }
+        return promotion;
+    }
+
+    public static PromotionType getPromotionType(PromotionTypeEntity promotionTypeEntity) {
+        PromotionType promotionType = new PromotionType();
+        if (Objects.nonNull(promotionTypeEntity)) {
+            promotionTypeEntity.setId(promotionTypeEntity.getId());
+            promotionTypeEntity.setDescription(promotionTypeEntity.getDescription());
+            promotionTypeEntity.setIsUserRelation(promotionTypeEntity.getIsUserRelation());
+            promotionTypeEntity.setIsRegular(promotionTypeEntity.getIsRegular());
+        }
+        return promotionType;
+    }
 }

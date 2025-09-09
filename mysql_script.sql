@@ -141,3 +141,6 @@ insert into company(description, description_long, logo, status, creation_date, 
 insert into company(description, description_long, logo, status, creation_date, modification_date) values('Gym 1', 'Gimnasio Numero 1', 'gym1.jpeg', TRUE, curdate(), curdate());
 insert into company(description, description_long, logo, status, creation_date, modification_date) values('Gym 2', 'Gimnasio Numero 2', 'gym2.jpeg', TRUE, curdate(), curdate());
 
+insert into promotion_type(description, is_user_relation, is_regular) values('2X1', TRUE, FALSE);
+insert into promotion_type(description, is_user_relation, is_regular) values('STANDARD', FALSE, TRUE);
+
