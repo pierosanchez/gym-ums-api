@@ -16,6 +16,8 @@ import com.pial.gym.gymapi.utils.DateUtils;
 import com.pial.gym.gymapi.utils.ModelConvertionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -38,13 +40,19 @@ public class PromotionService implements IPromotionService {
     private ICompanyRepository iCompanyRepository;
     @Autowired
     private DateUtils dateUtils;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     public String create(PromotionCreateRequest request) {
-        String message = "Promotion successfully created.";
+        String message = messageSource.getMessage("msg.promotion.creation.success", null, LocaleContextHolder.getLocale());
         try {
-            CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() -> new Exception("Company not found"));
-            PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() -> new Exception("Promotion Type not found"));
+            CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() ->
+                    new Exception(messageSource.getMessage(
+                            "msg.company.find.notfound", null, LocaleContextHolder.getLocale())));
+            PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() ->
+                    new Exception(messageSource.getMessage(
+                            "msg.promotion-type.find.notfound", null, LocaleContextHolder.getLocale())));
             PromotionEntity promotionEntity = new PromotionEntity();
             promotionEntity.setTitle(request.getTitle());
             promotionEntity.setDuration(request.getDuration());
@@ -66,10 +74,14 @@ public class PromotionService implements IPromotionService {
 
     @Override
     public String update(PromotionUpdateRequest request) {
-        String message = "Promotion successfully updated";
+        String message = messageSource.getMessage("msg.promotion.update.success", null, LocaleContextHolder.getLocale());
         try {
-            CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() -> new Exception("Company not found"));
-            PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() -> new Exception("Promotion Type not found"));
+            CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() ->
+                    new Exception(messageSource.getMessage(
+                            "msg.company.find.notfound", null, LocaleContextHolder.getLocale())));
+            PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() ->
+                    new Exception(messageSource.getMessage(
+                            "msg.promotion-type.find.notfound", null, LocaleContextHolder.getLocale())));
             PromotionEntity promotionEntity = new PromotionEntity();
             promotionEntity.setTitle(request.getTitle());
             promotionEntity.setDuration(request.getDuration());
@@ -107,7 +119,9 @@ public class PromotionService implements IPromotionService {
     public Promotion getDetail(Integer id) {
         Promotion promotion = new Promotion();
         try {
-            promotion = ModelConvertionUtils.getPromotion(iPromotionRepository.findById(id).orElseThrow(() -> new Exception("Promotion not found.")));
+            promotion = ModelConvertionUtils.getPromotion(iPromotionRepository.findById(id).orElseThrow(() ->
+                    new Exception(messageSource.getMessage(
+                            "msg.promotion.find.notfound", null, LocaleContextHolder.getLocale()))));
         } catch (Exception e) {
             log.error("Error promotion detail: {}", e.getMessage());
         }

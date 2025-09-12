@@ -16,7 +16,7 @@ public interface ICompanyController {
     ResponseEntity<BaseResponse<String>> create(@RequestBody CompanyCreateRequest request);
     @PutMapping("/update")
     ResponseEntity<BaseResponse<String>> update(@RequestBody CompanyUpdateRequest request);
-    @PostMapping("/get")
+    @PostMapping("/filter")
     ResponseEntity<BaseResponse<Slice<Company>>> getAllByFilter(@RequestBody CompanyGetAllByFilterRequest request);
     @GetMapping("/detail/{id}")
     ResponseEntity<BaseResponse<Company>> getDetail(@PathVariable Integer id);

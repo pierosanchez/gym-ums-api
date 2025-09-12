@@ -19,6 +19,6 @@ public interface IRolePermissionController {
     ResponseEntity<BaseResponse<RolePermissionDetailResponse>> getDetail(@PathVariable Integer roleId);
     @PutMapping("/update")
     ResponseEntity<BaseResponse<String>> update(@RequestBody RolePermissionUpdateRequest request);
-    @PostMapping("/get")
+    @PostMapping("/filter")
     ResponseEntity<BaseResponse<Slice<RolePermissionGetAllResponse>>> getAllByFilter(@RequestBody RolePermissionGetAllByFilterRequest request);
 }

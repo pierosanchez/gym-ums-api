@@ -36,7 +36,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public ResponseEntity<BaseResponse<Slice<User>>> getUserByFilter(UsersGetAllByFilterRequest request) {
+    public ResponseEntity<BaseResponse<Slice<User>>> getByFilter(UsersGetAllByFilterRequest request) {
         BaseResponse<Slice<User>> baseResponse = new BaseResponse<>();
         try {
             Slice<User> list = iUserService.getAllByFilter(request);
@@ -54,7 +54,7 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public ResponseEntity<BaseResponse<User>> getUserDetail(Integer id) {
+    public ResponseEntity<BaseResponse<User>> getDetail(Integer id) {
         BaseResponse<User> baseResponse = new BaseResponse<>();
         try {
             User obj = iUserService.getDetail(id);

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public interface IUserController {
     @PostMapping("/save")
     ResponseEntity<BaseResponse<String>> create(@RequestBody UserCreateRequest request);
-    @PostMapping("/get")
-    ResponseEntity<BaseResponse<Slice<User>>> getUserByFilter(@RequestBody UsersGetAllByFilterRequest request);
+    @PostMapping("/filter")
+    ResponseEntity<BaseResponse<Slice<User>>> getByFilter(@RequestBody UsersGetAllByFilterRequest request);
     @GetMapping("/detail/{id}")
-    ResponseEntity<BaseResponse<User>> getUserDetail(@PathVariable Integer id);
+    ResponseEntity<BaseResponse<User>> getDetail(@PathVariable Integer id);
 }
