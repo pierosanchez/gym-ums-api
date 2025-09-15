@@ -3,7 +3,6 @@ package com.pial.gym.gymapi.specification;
 import com.pial.gym.gymapi.entity.CompanyEntity;
 import com.pial.gym.gymapi.entity.PromotionEntity;
 import com.pial.gym.gymapi.entity.PromotionTypeEntity;
-import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.logging.log4j.util.Strings;
@@ -23,7 +22,7 @@ public class PromotionSpecification {
 
     public static Specification<PromotionEntity> findByDuration(Integer min, Integer max) {
         return (root, query, criteriaBuilder) -> {
-            if (min == null || max == null) {
+            if ((min == null || min == 0) || (max == null || max == 0)) {
                 return criteriaBuilder.conjunction();
             }
             return criteriaBuilder.between(root.get("duration"), min, max);

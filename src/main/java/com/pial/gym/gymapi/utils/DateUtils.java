@@ -11,7 +11,7 @@ import java.util.Date;
 @Slf4j
 @Component
 public class DateUtils {
-    @Value("gymapi.date.format")
+    @Value("${gymapi.date.format}")
     private String dateFormat;
 
     public Date convertStringToDate(String date) {

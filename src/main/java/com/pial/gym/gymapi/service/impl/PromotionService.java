@@ -7,6 +7,7 @@ import com.pial.gym.gymapi.dto.request.PromotionUpdateRequest;
 import com.pial.gym.gymapi.entity.CompanyEntity;
 import com.pial.gym.gymapi.entity.PromotionEntity;
 import com.pial.gym.gymapi.entity.PromotionTypeEntity;
+import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
 import com.pial.gym.gymapi.repository.ICompanyRepository;
 import com.pial.gym.gymapi.repository.IPromotionRepository;
 import com.pial.gym.gymapi.repository.IPromotionTypeRepository;
@@ -56,7 +57,7 @@ public class PromotionService implements IPromotionService {
             PromotionEntity promotionEntity = new PromotionEntity();
             promotionEntity.setTitle(request.getTitle());
             promotionEntity.setDuration(request.getDuration());
-            promotionEntity.setDurationType(request.getDurationType());
+            promotionEntity.setDurationType(PromotionDurationTypeEnum.valueOf(request.getDurationType()));
             promotionEntity.setPromotionType(promotionTypeEntity);
             promotionEntity.setCompany(companyEntity);
             promotionEntity.setStatus(request.getStatus());
@@ -67,7 +68,8 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setModificationDate(new Date());
             iPromotionRepository.saveAndFlush(promotionEntity);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Error create promotion: {}", e.getMessage());
+            message = messageSource.getMessage("msg.promotion.creation.error", null, LocaleContextHolder.getLocale());
         }
         return message;
     }
@@ -85,7 +87,7 @@ public class PromotionService implements IPromotionService {
             PromotionEntity promotionEntity = new PromotionEntity();
             promotionEntity.setTitle(request.getTitle());
             promotionEntity.setDuration(request.getDuration());
-            promotionEntity.setDurationType(request.getDurationType());
+            promotionEntity.setDurationType(PromotionDurationTypeEnum.valueOf(request.getDurationType()));
             promotionEntity.setPromotionType(promotionTypeEntity);
             promotionEntity.setCompany(companyEntity);
             promotionEntity.setStatus(request.getStatus());
@@ -94,7 +96,8 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
             promotionEntity.setModificationDate(new Date());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Error update promotion: {}", e.getMessage());
+            message = messageSource.getMessage("msg.promotion.update.error", null, LocaleContextHolder.getLocale());
         }
         return message;
     }
@@ -148,7 +151,8 @@ public class PromotionService implements IPromotionService {
         if (request.getStatus() != null) {
             specification = specification.and(PromotionSpecification.findByStatus(request.getStatus()));
         }
-        if (request.getStartDatePeriodStart() != null && request.getEndDatePeriodEnd() != null) {
+        if ((request.getStartDatePeriodStart() != null && !request.getStartDatePeriodStart().isBlank())
+                && (request.getEndDatePeriodEnd() != null && !request.getEndDatePeriodEnd().isBlank())) {
             Date periodStart = dateUtils.convertStringToDate(request.getStartDatePeriodStart());
             Date periodEnd = dateUtils.convertStringToDate(request.getEndDatePeriodEnd());
             specification = specification.and(PromotionSpecification.findByStartAndEndDate(periodStart, periodEnd));

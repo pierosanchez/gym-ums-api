@@ -110,10 +110,10 @@ public class ModelConvertionUtils {
     public static PromotionType getPromotionType(PromotionTypeEntity promotionTypeEntity) {
         PromotionType promotionType = new PromotionType();
         if (Objects.nonNull(promotionTypeEntity)) {
-            promotionTypeEntity.setId(promotionTypeEntity.getId());
-            promotionTypeEntity.setDescription(promotionTypeEntity.getDescription());
-            promotionTypeEntity.setIsUserRelation(promotionTypeEntity.getIsUserRelation());
-            promotionTypeEntity.setIsRegular(promotionTypeEntity.getIsRegular());
+            promotionType.setId(promotionTypeEntity.getId());
+            promotionType.setDescription(promotionTypeEntity.getDescription());
+            promotionType.setIsUserRelation(promotionTypeEntity.getIsUserRelation());
+            promotionType.setIsRegular(promotionTypeEntity.getIsRegular());
         }
         return promotionType;
     }

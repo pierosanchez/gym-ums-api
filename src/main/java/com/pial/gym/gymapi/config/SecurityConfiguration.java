@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,18 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
     @Autowired
-    private CustomUserDetailServiceProvider customUserDetailService;
-    @Autowired
     private JwtAuthenticationFilterProvider jwtAuthenticationFilterProvider;
     @Autowired
     private JwtAuthenticationEntryPointProvider jwtAuthenticationEntryPointProvider;
-
-    @Bean
-    public AuthenticationManager authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(customUserDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return new ProviderManager(daoAuthenticationProvider);
-    }
 
     @Bean
     public CustomAuthenticationProvider customAuthenticationProvider() {
@@ -51,7 +43,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.sessionManagement(sessionManagement -> sessionManagement.maximumSessions(1));
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
@@ -59,8 +50,10 @@ public class SecurityConfiguration {
                         authorizeConfiguration.requestMatchers("/authentication/**").permitAll()
                                 .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());
-        httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPointProvider));
+        httpSecurity.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS).maximumSessions(1));
         httpSecurity.addFilterBefore(jwtAuthenticationFilterProvider, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.authenticationProvider(customAuthenticationProvider());
+        httpSecurity.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPointProvider));
         return httpSecurity.build();
     }
 

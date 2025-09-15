@@ -1,17 +1,13 @@
 package com.pial.gym.gymapi.dto.request;
 
-import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class PromotionGetAllByFilterRequest {
     @NotNull(message = "Page Number must not be empty")
-    @NotBlank(message = "Page Number Required")
     private Integer pageNumber;
     @NotNull(message = "Page Size must not be empty")
-    @NotBlank(message = "Page Size Required")
     private Integer pageSize;
     @NotNull(message = "Title must not be empty")
     private String title;
@@ -20,7 +16,7 @@ public class PromotionGetAllByFilterRequest {
     @NotNull(message = "Duration Period Max must not be empty")
     private Integer durationPeriodMax;
     @NotNull(message = "Duration Type must not be empty")
-    private PromotionDurationTypeEnum durationType;
+    private String durationType;
     @NotNull(message = "Promotion Type must not be empty")
     private Integer promotionTypeId;
     @NotNull(message = "Company must not be empty")

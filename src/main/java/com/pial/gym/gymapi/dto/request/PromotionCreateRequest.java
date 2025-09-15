@@ -1,9 +1,11 @@
 package com.pial.gym.gymapi.dto.request;
 
 import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
+import com.pial.gym.gymapi.validator.EnumValue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 
@@ -12,12 +14,11 @@ public class PromotionCreateRequest {
     @NotBlank(message = "Title is required")
     @NotNull(message = "Title is required")
     private String title;
-    @NotBlank(message = "Duration is required")
     @NotNull(message = "Duration is required")
     private Integer duration;
-    @NotBlank(message = "Duration Type is required")
     @NotNull(message = "Duration Type is required")
-    private PromotionDurationTypeEnum durationType;
+    @EnumValue(enumClass = PromotionDurationTypeEnum.class, message = "Invalid Duration Type")
+    private String durationType;
     @NotNull(message = "Promotion Type is required")
     private Integer promotionTypeId;
     @NotNull(message = "Company is required")
