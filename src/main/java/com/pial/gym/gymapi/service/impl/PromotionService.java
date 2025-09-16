@@ -78,13 +78,14 @@ public class PromotionService implements IPromotionService {
     public String update(PromotionUpdateRequest request) {
         String message = messageSource.getMessage("msg.promotion.update.success", null, LocaleContextHolder.getLocale());
         try {
+            PromotionEntity promotionEntity = iPromotionRepository.findById(request.getId()).orElseThrow(() ->
+                    new Exception(messageSource.getMessage("msg.promotion.find.notfound", null, LocaleContextHolder.getLocale())));
             CompanyEntity companyEntity = iCompanyRepository.findById(request.getCompanyId()).orElseThrow(() ->
                     new Exception(messageSource.getMessage(
                             "msg.company.find.notfound", null, LocaleContextHolder.getLocale())));
             PromotionTypeEntity promotionTypeEntity = iPromotionTypeRepository.findById(request.getPromotionTypeId()).orElseThrow(() ->
                     new Exception(messageSource.getMessage(
                             "msg.promotion-type.find.notfound", null, LocaleContextHolder.getLocale())));
-            PromotionEntity promotionEntity = new PromotionEntity();
             promotionEntity.setTitle(request.getTitle());
             promotionEntity.setDuration(request.getDuration());
             promotionEntity.setDurationType(PromotionDurationTypeEnum.valueOf(request.getDurationType()));
@@ -95,6 +96,7 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setStartDate(dateUtils.convertStringToDate(request.getStartDate()));
             promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
             promotionEntity.setModificationDate(new Date());
+            iPromotionRepository.saveAndFlush(promotionEntity);
         } catch (Exception e) {
             log.error("Error update promotion: {}", e.getMessage());
             message = messageSource.getMessage("msg.promotion.update.error", null, LocaleContextHolder.getLocale());
