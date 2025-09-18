@@ -18,8 +18,8 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -37,8 +37,8 @@ public class CompanyService implements ICompanyService {
             companyEntity.setDescriptionLong(request.getDescriptionLong());
             companyEntity.setLogo(request.getLogo());
             companyEntity.setStatus(true);
-            companyEntity.setCreationDate(new Date());
-            companyEntity.setModificationDate(new Date());
+            companyEntity.setCreationDate(LocalDate.now());
+            companyEntity.setModificationDate(LocalDate.now());
             iCompanyRepository.saveAndFlush(companyEntity);
         } catch (Exception e) {
             log.error("There was an error while creating the company: {}", e.getMessage());
@@ -55,7 +55,7 @@ public class CompanyService implements ICompanyService {
             companyEntity.setDescriptionLong(request.getDescriptionLong());
             companyEntity.setLogo(request.getLogo());
             companyEntity.setStatus(request.getStatus());
-            companyEntity.setModificationDate(new Date());
+            companyEntity.setModificationDate(LocalDate.now());
             iCompanyRepository.saveAndFlush(companyEntity);
         } catch (Exception e) {
             log.error("There was an error while updating the company: {}", e.getMessage());

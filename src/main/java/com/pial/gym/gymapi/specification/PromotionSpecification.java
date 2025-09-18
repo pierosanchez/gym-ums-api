@@ -8,7 +8,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PromotionSpecification {
     public static Specification<PromotionEntity> findByTitle(String title) {
@@ -67,7 +67,7 @@ public class PromotionSpecification {
         };
     }
 
-    public static Specification<PromotionEntity> findByStartAndEndDate(Date periodStart, Date periodEnd) {
+    public static Specification<PromotionEntity> findByStartAndEndDate(LocalDate periodStart, LocalDate periodEnd) {
         return (root, query, criteriaBuilder) -> {
             if (periodStart == null || periodEnd == null) {
                 return criteriaBuilder.conjunction();

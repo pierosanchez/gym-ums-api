@@ -3,7 +3,7 @@ package com.pial.gym.gymapi.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -20,14 +20,14 @@ public class MembershipPeriodEntity {
     private PromotionEntity promotion;
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
     @Temporal(TemporalType.DATE)
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date")
-    private Date creationDate;
+    private LocalDate creationDate;
     @Temporal(TemporalType.DATE)
     @Column(name = "modification_date")
-    private Date modificationDate;
+    private LocalDate modificationDate;
 }

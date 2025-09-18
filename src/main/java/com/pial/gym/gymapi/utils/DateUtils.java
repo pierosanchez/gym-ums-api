@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Slf4j
 @Component
@@ -14,13 +14,13 @@ public class DateUtils {
     @Value("${gymapi.date.format}")
     private String dateFormat;
 
-    public Date convertStringToDate(String date) {
+    public LocalDate convertStringToLocalDate(String date) {
         try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
-            return simpleDateFormat.parse(date);
-        } catch (ParseException parseException) {
-            log.error("Error while converting string to date: {}", parseException.getMessage());
-            return new Date();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+            return LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException exception) {
+            log.error("Error while converting string to date: {}", exception.getMessage());
+            return LocalDate.now();
         }
     }
 }

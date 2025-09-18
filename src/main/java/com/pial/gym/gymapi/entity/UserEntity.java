@@ -4,7 +4,7 @@ import com.pial.gym.gymapi.enumerable.GenderEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -31,8 +31,8 @@ public class UserEntity {
     private Boolean status;
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date")
-    private Date creationDate;
+    private LocalDate creationDate;
     @Temporal(TemporalType.DATE)
     @Column(name = "modification_date")
-    private Date modificationDate;
+    private LocalDate modificationDate;
 }

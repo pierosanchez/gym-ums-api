@@ -24,8 +24,8 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -122,15 +122,15 @@ public class UserService implements IUserService {
         }
         if (request.getIsFilterCreationDate() != null) {
             if (request.getIsFilterCreationDate()) {
-                Date startDate = dateUtils.convertStringToDate(request.getFromDate());
-                Date endDate = dateUtils.convertStringToDate(request.getToDate());
+                LocalDate startDate = dateUtils.convertStringToLocalDate(request.getFromDate());
+                LocalDate endDate = dateUtils.convertStringToLocalDate(request.getToDate());
                 specification = specification.and(UserSpecification.findByCreationDate(startDate, endDate));
             }
         }
         if (request.getIsFilterModificationDate() != null) {
             if (request.getIsFilterModificationDate()) {
-                Date startDate = dateUtils.convertStringToDate(request.getFromDate());
-                Date endDate = dateUtils.convertStringToDate(request.getToDate());
+                LocalDate startDate = dateUtils.convertStringToLocalDate(request.getFromDate());
+                LocalDate endDate = dateUtils.convertStringToLocalDate(request.getToDate());
                 specification = specification.and(UserSpecification.findByModificationDate(startDate, endDate));
             }
         }
@@ -150,8 +150,8 @@ public class UserService implements IUserService {
         userEntity.setRole(role);
         userEntity.setCompany(company);
         userEntity.setStatus(true);
-        userEntity.setCreationDate(new Date());
-        userEntity.setModificationDate(new Date());
+        userEntity.setCreationDate(LocalDate.now());
+        userEntity.setModificationDate(LocalDate.now());
         return userEntity;
     }
 }

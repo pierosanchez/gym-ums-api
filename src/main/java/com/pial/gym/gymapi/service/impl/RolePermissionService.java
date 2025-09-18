@@ -26,6 +26,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -55,8 +56,8 @@ public class RolePermissionService implements IRolePermissionService {
                 rolePermissionEntity.setRole(roleEntity);
                 rolePermissionEntity.setPermission(permissionEntity);
                 rolePermissionEntity.setStatus(true);
-                rolePermissionEntity.setCreationDate(new Date());
-                rolePermissionEntity.setModificationDate(new Date());
+                rolePermissionEntity.setCreationDate(LocalDate.now());
+                rolePermissionEntity.setModificationDate(LocalDate.now());
                 rolePermissionEntityList.add(rolePermissionEntity);
             });
             iRolePermissionRepository.saveAllAndFlush(rolePermissionEntityList);
@@ -114,8 +115,8 @@ public class RolePermissionService implements IRolePermissionService {
                     rolePermissionEntity.setRole(rolePermissionEntityList.getFirst().getRole());
                     rolePermissionEntity.setPermission(permissionEntity);
                     rolePermissionEntity.setStatus(true);
-                    rolePermissionEntity.setCreationDate(new Date());
-                    rolePermissionEntity.setModificationDate(new Date());
+                    rolePermissionEntity.setCreationDate(LocalDate.now());
+                    rolePermissionEntity.setModificationDate(LocalDate.now());
                     rolePermissionEntityCreateList.add(rolePermissionEntity);
                 }
             }

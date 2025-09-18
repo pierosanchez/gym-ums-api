@@ -118,8 +118,8 @@ create table membership_period(
     foreign key (id_promotion) references promotion(id)
 );
 
-drop table if exists promotion_user_relation;
-create table promotion_user_relation(
+drop table if exists membership_user_relation;
+create table membership_user_relation(
     id int auto_increment primary key,
     id_membership_period int not null,
     id_user_client int not null,

@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "promotion_user_relation")
-public class PromotionUserRelationEntity {
+@Table(name = "membership_user_relation")
+public class MembershipUserRelationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

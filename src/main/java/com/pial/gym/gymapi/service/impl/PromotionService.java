@@ -26,6 +26,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,10 +63,10 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setCompany(companyEntity);
             promotionEntity.setStatus(request.getStatus());
             promotionEntity.setPrice(request.getPrice());
-            promotionEntity.setStartDate(dateUtils.convertStringToDate(request.getStartDate()));
-            promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
-            promotionEntity.setCreationDate(new Date());
-            promotionEntity.setModificationDate(new Date());
+            promotionEntity.setStartDate(dateUtils.convertStringToLocalDate(request.getStartDate()));
+            promotionEntity.setEndDate(dateUtils.convertStringToLocalDate(request.getEndDate()));
+            promotionEntity.setCreationDate(LocalDate.now());
+            promotionEntity.setModificationDate(LocalDate.now());
             iPromotionRepository.saveAndFlush(promotionEntity);
         } catch (Exception e) {
             log.error("Error create promotion: {}", e.getMessage());
@@ -93,9 +94,9 @@ public class PromotionService implements IPromotionService {
             promotionEntity.setCompany(companyEntity);
             promotionEntity.setStatus(request.getStatus());
             promotionEntity.setPrice(request.getPrice());
-            promotionEntity.setStartDate(dateUtils.convertStringToDate(request.getStartDate()));
-            promotionEntity.setEndDate(dateUtils.convertStringToDate(request.getEndDate()));
-            promotionEntity.setModificationDate(new Date());
+            promotionEntity.setStartDate(dateUtils.convertStringToLocalDate(request.getStartDate()));
+            promotionEntity.setEndDate(dateUtils.convertStringToLocalDate(request.getEndDate()));
+            promotionEntity.setModificationDate(LocalDate.now());
             iPromotionRepository.saveAndFlush(promotionEntity);
         } catch (Exception e) {
             log.error("Error update promotion: {}", e.getMessage());
@@ -142,7 +143,7 @@ public class PromotionService implements IPromotionService {
             specification = specification.and(PromotionSpecification.findByDuration(request.getDurationPeriodMin(), request.getDurationPeriodMax()));
         }
         if (request.getDurationType() != null) {
-            specification = specification.and(PromotionSpecification.findByDurationType(request.getDurationType().toString()));
+            specification = specification.and(PromotionSpecification.findByDurationType(request.getDurationType()));
         }
         if (request.getPromotionTypeId() != null) {
             specification = specification.and(PromotionSpecification.findByPromotionType(request.getPromotionTypeId()));
@@ -155,8 +156,8 @@ public class PromotionService implements IPromotionService {
         }
         if ((request.getStartDatePeriodStart() != null && !request.getStartDatePeriodStart().isBlank())
                 && (request.getEndDatePeriodEnd() != null && !request.getEndDatePeriodEnd().isBlank())) {
-            Date periodStart = dateUtils.convertStringToDate(request.getStartDatePeriodStart());
-            Date periodEnd = dateUtils.convertStringToDate(request.getEndDatePeriodEnd());
+            LocalDate periodStart = dateUtils.convertStringToLocalDate(request.getStartDatePeriodStart());
+            LocalDate periodEnd = dateUtils.convertStringToLocalDate(request.getEndDatePeriodEnd());
             specification = specification.and(PromotionSpecification.findByStartAndEndDate(periodStart, periodEnd));
         }
         return specification;

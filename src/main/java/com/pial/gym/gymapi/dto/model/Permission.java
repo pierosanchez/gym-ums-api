@@ -3,7 +3,7 @@ package com.pial.gym.gymapi.dto.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class Permission {
@@ -12,7 +12,7 @@ public class Permission {
     private String code;
     private Boolean visible;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private Date creationDate;
+    private LocalDate creationDate;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private Date modificationDate;
+    private LocalDate modificationDate;
 }

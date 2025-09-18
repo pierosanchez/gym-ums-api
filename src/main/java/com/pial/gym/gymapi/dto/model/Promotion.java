@@ -1,10 +1,11 @@
 package com.pial.gym.gymapi.dto.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class Promotion {
@@ -16,8 +17,12 @@ public class Promotion {
     private Company company;
     private Boolean status;
     private BigDecimal price;
-    private Date startDate;
-    private Date endDate;
-    private Date creationDate;
-    private Date modificationDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDate startDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDate endDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDate creationDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDate modificationDate;
 }

@@ -7,7 +7,7 @@ import jakarta.persistence.criteria.Join;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class UserSpecification {
     public static Specification<UserEntity> findByUsername(String username) {
@@ -84,7 +84,7 @@ public class UserSpecification {
         };
     }
 
-    public static Specification<UserEntity> findByCreationDate(Date fromDate, Date toDate) {
+    public static Specification<UserEntity> findByCreationDate(LocalDate fromDate, LocalDate toDate) {
         return (root, query, criteriaBuilder) -> {
             if (fromDate == null || toDate == null) {
                 return criteriaBuilder.conjunction();
@@ -93,7 +93,7 @@ public class UserSpecification {
         };
     }
 
-    public static Specification<UserEntity> findByModificationDate(Date fromDate, Date toDate) {
+    public static Specification<UserEntity> findByModificationDate(LocalDate fromDate, LocalDate toDate) {
         return (root, query, criteriaBuilder) -> {
             if (fromDate == null || toDate == null) {
                 return criteriaBuilder.conjunction();
