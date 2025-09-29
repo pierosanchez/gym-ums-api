@@ -1,16 +1,25 @@
 package com.pial.gym.gymapi.service.impl;
 
+import com.pial.gym.gymapi.dto.model.Membership;
 import com.pial.gym.gymapi.dto.request.MembershipCreateRequest;
+import com.pial.gym.gymapi.dto.request.MembershipGetAllByFilterRequest;
 import com.pial.gym.gymapi.entity.*;
 import com.pial.gym.gymapi.enumerable.MembershipStatusEnum;
 import com.pial.gym.gymapi.enumerable.PromotionDurationTypeEnum;
 import com.pial.gym.gymapi.repository.*;
 import com.pial.gym.gymapi.service.IMembershipService;
+import com.pial.gym.gymapi.specification.MembershipSpecification;
 import com.pial.gym.gymapi.utils.DateUtils;
+import com.pial.gym.gymapi.utils.ModelConvertionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -121,5 +130,39 @@ public class MembershipService implements IMembershipService {
             log.error("Error create membership: {}", e.getMessage());
         }
         return message;
+    }
+
+    @Override
+    public Slice<Membership> getAllByFilter(MembershipGetAllByFilterRequest request) {
+        Specification<MembershipEntity> specification = getSpecificationFilter(request);
+
+        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
+        Slice<MembershipEntity> membershipEntitySlice = iMembershipRepository.findAll(specification, pageable);
+        List<Membership> membershipList = new ArrayList<>();
+        membershipEntitySlice.forEach(membershipEntity -> {
+            membershipList.add(ModelConvertionUtils.getMembership(membershipEntity));
+        });
+
+        boolean hasNext = membershipList.size() > pageable.getPageSize();
+        List<Membership> sliceContent = hasNext ? membershipList.subList(0, pageable.getPageSize()) : membershipList;
+
+        return new SliceImpl<>(sliceContent, pageable, hasNext);
+    }
+
+    private Specification<MembershipEntity> getSpecificationFilter(MembershipGetAllByFilterRequest request) {
+        Specification<MembershipEntity> specification = Specification.unrestricted();
+        if (request.getUserNameRegister() != null) {
+            specification = specification.and(MembershipSpecification.findByUserNameRegister(request.getUserNameRegister()));
+        }
+        if (request.getUserNameClient() != null) {
+            specification = specification.and(MembershipSpecification.findByUserNameClient(request.getUserNameClient()));
+        }
+        if (request.getCompanyId() != null) {
+            specification = specification.and(MembershipSpecification.findByCompany(request.getCompanyId()));
+        }
+        if (request.getStatus() != null) {
+            specification = specification.and(MembershipSpecification.findByStatus(request.getStatus()));
+        }
+        return specification;
     }
 }

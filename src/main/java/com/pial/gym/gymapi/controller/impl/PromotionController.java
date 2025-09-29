@@ -19,7 +19,7 @@ public class PromotionController implements IPromotionController {
     private IPromotionService iPromotionService;
 
     @Override
-    public ResponseEntity<BaseResponse<String>> save(PromotionCreateRequest request) {
+    public ResponseEntity<BaseResponse<String>> create(PromotionCreateRequest request) {
         BaseResponse<String> baseResponse = new BaseResponse<>();
         try {
             String message = iPromotionService.create(request);

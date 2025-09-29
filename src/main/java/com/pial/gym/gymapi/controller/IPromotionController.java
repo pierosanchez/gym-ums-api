@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/promotion")
 public interface IPromotionController {
     @PostMapping("/save")
-    ResponseEntity<BaseResponse<String>> save(@Valid @RequestBody PromotionCreateRequest request);
+    ResponseEntity<BaseResponse<String>> create(@Valid @RequestBody PromotionCreateRequest request);
     @PutMapping("/update")
     ResponseEntity<BaseResponse<String>> update(@Valid @RequestBody PromotionUpdateRequest request);
     @PostMapping("/filter")

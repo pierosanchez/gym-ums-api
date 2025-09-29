@@ -1,6 +1,7 @@
 package com.pial.gym.gymapi.dto.request;
 
 import com.pial.gym.gymapi.enumerable.GenderEnum;
+import com.pial.gym.gymapi.validator.EnumValue;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -29,12 +30,10 @@ public class UserCreateRequest {
     @Size(min = 7, max = 9, message = "Phone number must be between 7 and 9 digits")
     private String phone;
     @NotNull(message = "Gender is required")
-    @NotBlank(message = "Gender is required")
-    private GenderEnum gender;
+    @EnumValue(enumClass = GenderEnum.class, message = "Invalid Gender")
+    private String gender;
     @NotNull(message = "Role is required")
-    @NotBlank(message = "Role is required")
     private Integer roleId;
     @NotNull(message = "Company is required")
-    @NotBlank(message = "Company is required")
     private Integer companyId;
 }

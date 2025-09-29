@@ -117,4 +117,49 @@ public class ModelConvertionUtils {
         }
         return promotionType;
     }
+
+    public static Membership getMembership(MembershipEntity membershipEntity) {
+        Membership membership = new Membership();
+        if (Objects.nonNull(membershipEntity)) {
+            Company company = getCompany(membershipEntity.getCompany());
+            User userRegister = getUser(membershipEntity.getUserRegister());
+            User userClient = getUser(membershipEntity.getUserClient());
+            membership.setId(membershipEntity.getId());
+            membership.setUserRegister(userRegister);
+            membership.setUserClient(userClient);
+            membership.setCompany(company);
+            membership.setStatus(membershipEntity.getStatus());
+            membership.setCreationDate(membershipEntity.getCreationDate());
+            membership.setModificationDate(membershipEntity.getModificationDate());
+        }
+        return membership;
+    }
+
+    public static MembershipPeriod getMembershipPeriod(MembershipPeriodEntity membershipPeriodEntity) {
+        MembershipPeriod membershipPeriod = new MembershipPeriod();
+        if (Objects.nonNull(membershipPeriodEntity)) {
+            Membership membership = getMembership(membershipPeriodEntity.getMembership());
+            Promotion promotion = getPromotion(membershipPeriodEntity.getPromotion());
+            membershipPeriod.setId(membershipPeriodEntity.getId());
+            membershipPeriod.setMembership(membership);
+            membershipPeriod.setPromotion(promotion);
+            membershipPeriod.setStartDate(membershipPeriodEntity.getStartDate());
+            membershipPeriod.setEndDate(membershipPeriodEntity.getEndDate());
+            membershipPeriod.setCreationDate(membershipPeriodEntity.getCreationDate());
+            membershipPeriod.setModificationDate(membershipPeriodEntity.getModificationDate());
+        }
+        return membershipPeriod;
+    }
+
+    public static MembershipUserRelation getMembershipUserRelation(MembershipUserRelationEntity membershipUserRelationEntity) {
+        MembershipUserRelation membershipUserRelation = new MembershipUserRelation();
+        if (Objects.nonNull(membershipUserRelationEntity)) {
+            MembershipPeriod membershipPeriod = getMembershipPeriod(membershipUserRelationEntity.getMembershipPeriod());
+            User user = getUser(membershipUserRelationEntity.getUserClient());
+            membershipUserRelation.setId(membershipUserRelationEntity.getId());
+            membershipUserRelation.setMembershipPeriod(membershipPeriod);
+            membershipUserRelation.setUserClient(user);
+        }
+        return membershipUserRelation;
+    }
 }
